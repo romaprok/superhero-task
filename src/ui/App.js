@@ -1,18 +1,19 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import {Route} from "react-router-dom";
+import HeroData from "./HeroData";
+import MainHeroesList from "./MainHeroesList";
 
 function App() {
-  return (
-    <div className="App">
-      <span>nickName:</span>
-      <span>real_name:</span>
-      <span>origin_description:</span>
-      <span>superpowers:</span>
-      <span>catch_phrase:​</span>
-      <span>Images:</span>
-    </div>
-  );
+
+
+    return (
+        <>
+            <Route exact path={'/'} render={()=><MainHeroesList/>}/>
+            <Route path={'/heroData/:id'} render={() => <HeroData/>}/>
+        </>
+    )
+
 }
 
 export default App;
