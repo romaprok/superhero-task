@@ -6,19 +6,28 @@ const instance = axios.create({
 })
 
 export const dataApi = {
-    getData() {
+    getData(page, pageSize) {
         return instance.get('')
             .then(res => res.data)
             .catch(e => alert(e))
     },
     setHeroId(id) {
-        debugger
         return instance.get(`${id}`)
             .then(res => res.data)
             .catch(e => alert(e))
     },
     setNewHeroNickName(nickname) {
         return instance.post('', {nickname})
+            .then(res => res.data)
+            .catch(e => alert(e))
+    },
+    deleteHero(heroId) {
+        return instance.delete('' + heroId)
+            .then(res => res.data)
+            .catch(e => alert(e))
+    },
+    setHeroFeature(feature) {
+        return instance.post('', {feature})
             .then(res => res.data)
             .catch(e => alert(e))
     },

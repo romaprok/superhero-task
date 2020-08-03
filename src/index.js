@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { store } from "./bll/store";
 import { BrowserRouter } from "react-router-dom";
 
+
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>

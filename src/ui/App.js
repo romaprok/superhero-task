@@ -1,19 +1,17 @@
 import React from 'react';
 import './App.css';
-import {Route} from "react-router-dom";
-import HeroData from "./HeroData";
-import MainHeroesList from "./MainHeroesList";
+import {Route, Switch} from 'react-router-dom';
+import HeroData from './HeroData';
+import MainHeroesList from './MainHeroesList';
+
 
 function App() {
-
-
     return (
-        <>
-            <Route exact path={'/'} render={()=><MainHeroesList/>}/>
-            <Route path={'/heroData/:id'} render={() => <HeroData/>}/>
-        </>
+        <Switch>
+            <Route exact path={'/'} component={MainHeroesList}/>
+            <Route path={'/heroData/:id'} component={<HeroData/>}/>
+        </Switch>
     )
-
 }
 
 export default App;

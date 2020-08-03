@@ -22,6 +22,9 @@
   height: 200px;
   text-align: center;
 }
+.error{
+    border-color: red;
+}
 button a{
   text-decoration: none;
   color: black;

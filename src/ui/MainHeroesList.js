@@ -1,29 +1,38 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
-import {useDispatch, useSelector} from "react-redux";
-import {getData, setHeroImage, setNewHeroNickName} from "../bll/dataReducer";
-import superHero from '../accets/superhero.jpg'
-import {NavLink} from "react-router-dom";
+import {useDispatch, useSelector} from 'react-redux';
+import {deleteHero, getData, setHeroImage, setNewHeroNickName} from '../bll/dataReducer';
+import superHero from '../assets/superhero.jpg'
+import {NavLink} from 'react-router-dom';
+import Button from '@material-ui/core/Button';
+import Input from '@material-ui/core/Input';
+import Pagination from '@material-ui/lab/Pagination';
 
 function MainHeroesList() {
-
     const dispatch = useDispatch()
+
     useEffect(() => {
         dispatch(getData())
     }, [])
 
     const onMainPhotoSelected = (e, id) => {
         if (e.target.files.length) {
-            setHeroImage(e.target.files[0], id);
+            dispatch(setHeroImage(e.target.files[0], id));
         }
     }
 
+    const [error, setError] = useState(false)
+
+    const onClickDeleteHero = (heroId) => {
+        debugger
+        dispatch(deleteHero(heroId))
+    }
     // const currentPage = useSelector(state => state.reducer.data.currentPage)
     // const pageSize = useSelector(state => state.reducer.data.pageSize)
     // const totalItemsCount = useSelector(state => state.reducer.data.totalItemsCount)
 
     const hero = useSelector(state => state.reducer.data).map(el =>
-        <div className={'hero'}>
+        <div className={'hero'} id={el.id}>
             <div className={'heroNickName'}>{el.nickname}</div>
             {el.images
                 ? <div className={'heroImageWrapper'}><img className={'heroImage'} src={el.images} alt=""/></div>
@@ -34,26 +43,42 @@ function MainHeroesList() {
             </div>
             <div>
                 <button><NavLink to={'/heroData/' + el.id}>see details about hero</NavLink></button>
-                {!el.images &&   <input type={"file"} onChange={onMainPhotoSelected}/>}</div>
+                {!el.images && <input type={'file'} onChange={(e) => onMainPhotoSelected(e, el.id)}/>}</div>
+            <div>
+                <button onClick={() => onClickDeleteHero(el.id)}>delete hero</button>
+            </div>
         </div>)
 
+    const page = useSelector(state => state.reducer.currentPage);
+    const pageSize = useSelector(state => state.reducer.pageSize);
+    const totalUserCount = useSelector(state => state.reducer.totalUsersCount);
 
     const [newNickName, setNewNickName] = useState('')
 
     const heroNickNameChange = (e) => setNewNickName(e.currentTarget.value)
 
     const addHero = () => {
-        let nickname = newNickName
-        dispatch(setNewHeroNickName(nickname))
+        if (!newNickName) {
+            setError(true)
+        } else {
+            setError(false)
+            let nickname = newNickName
+            dispatch(setNewHeroNickName(nickname))
+        }
     }
 
     return (
         <div className="App">
+            <Pagination count={10} page={2} color="primary" onChange={() => {
+            }}/>
             {/*<Paginator currentPage={currentPage}*/}
             {/*           // onPageChanged={onPageChanged}*/}
             {/*           totalItemsCount={totalItemsCount} pageSize={pageSize}/>*/}
-            <input onChange={heroNickNameChange} type="text" placeholder={'nickname'}/>
-            <button onClick={addHero}>add super hero</button>
+            <Input className={error ? 'error' : ''}
+                   onChange={heroNickNameChange}
+                   type="text"
+                   placeholder={'nickname'}/>
+            <Button variant={'contained'} onClick={addHero}>add super hero</Button>
             <div>
                 {hero}
             </div>
