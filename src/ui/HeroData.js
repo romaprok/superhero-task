@@ -2,7 +2,14 @@ import React, {useEffect, useState} from 'react';
 import './App.css';
 import {useDispatch, useSelector} from "react-redux";
 import superHero from '../assets/superhero.jpg'
-import {setHeroId, setNewHeroFeature} from "../bll/dataReducer";
+import {
+    renameHero,
+    setHeroCatchPhrase,
+    setHeroDescription,
+    setHeroId,
+    setHeroSuperpowers,
+    setNewHeroNickName
+} from "../bll/dataReducer";
 import {NavLink, withRouter} from "react-router-dom";
 
 function HeroData(props) {
@@ -27,25 +34,25 @@ function HeroData(props) {
     const onActivatedEditModeSuperPower = () => setEditModeSuperPower(true)
     const onActivatedEditModeCatchPhrase = () => setEditModeCatchPhrase(true)
 
-    const deactivatedEditModeNickName = () => {
+    const deactivatedEditModeNickName = (heroId) => {
         setEditModeNickName(false)
-        dispatch(setNewHeroFeature(nickname))
+        dispatch(setNewHeroNickName(heroId, nickname))
     }
-    const deactivatedEditModeName = () => {
+    const deactivatedEditModeName = (heroId) => {
         setEditModeName(false)
-        dispatch(setNewHeroFeature(name))
+        dispatch(renameHero(heroId, name))
     }
-    const deactivatedEditModeDescription = () => {
+    const deactivatedEditModeDescription = (heroId) => {
         setEditModeDescription(false)
-        dispatch(setNewHeroFeature(description))
+        dispatch(setHeroDescription(heroId, description))
     }
-    const deactivatedEditModeSuperPower = () => {
+    const deactivatedEditModeSuperPower = (heroId) => {
         setEditModeSuperPower(false)
-        dispatch(setNewHeroFeature(superPower))
+        dispatch(setHeroSuperpowers(heroId, superPower))
     }
-    const deactivatedEditModeCatchPhrase = () => {
+    const deactivatedEditModeCatchPhrase = (heroId) => {
         setEditModeCatchPhrase(false)
-        dispatch(setNewHeroFeature(catchPhrase))
+        dispatch(setHeroCatchPhrase(heroId, catchPhrase))
     }
 
     const onNickNameChanged = (e) => changeNickName(e.currentTarget.value)
@@ -65,37 +72,41 @@ function HeroData(props) {
     const fullHeroData = (
         <tr>
             {!editModeNickName
-                ? <td onClick={onActivatedEditModeNickName} className={'heroTableField'}>{el.nickname}</td>
-                :
-                <input onChange={onNickNameChanged} value={nickname} onFocus={true} onBlur={deactivatedEditModeNickName}
-                       type="text" placeholder={el.nickname}/>
+                ? <td onClick={onActivatedEditModeNickName}
+                      className={'heroTableField'}>{el.nickname ? el.nickname : 'unknown'}</td>
+                : <input onChange={onNickNameChanged} value={nickname} autoFocus={true}
+                         onBlur={() => deactivatedEditModeNickName(el.id)}
+                         type="text"/>
             }
             {!editModeName
                 ? <td onClick={onActivatedEditModeName}
                       className={'heroTableField'}>{el.real_name ? el.real_name : 'unknown'}</td>
-                : <input onChange={onNameChanged} onFocus={true} onBlur={deactivatedEditModeName} type="text"
-                         placeholder={el.real_name}/>
+                :
+                <input onChange={onNameChanged} onFocus={true} onBlur={() => deactivatedEditModeName(el.id)} type="text"
+                       value={name}/>
             }
             {!editModeDescription
                 ? <td onClick={onActivatedEditModeDescription}
                       className={'heroTableField'}>{el.origin_description ? el.origin_description : 'unknown'}</td>
-                : <input onChange={onDescriptionChanged} onFocus={true} onBlur={deactivatedEditModeDescription}
+                : <input onChange={onDescriptionChanged} onFocus={true}
+                         onBlur={() => deactivatedEditModeDescription(el.id)}
                          type="text"
-                         placeholder={el.origin_description}/>
+                         value={description}/>
             }
             {!editModeSuperPower
                 ? <td onClick={onActivatedEditModeSuperPower}
                       className={'heroTableField'}>{el.superpowers ? el.superpowers : 'unknown'}</td>
                 :
-                <input onChange={onSuperPowerChanged} onFocus={true} onBlur={deactivatedEditModeSuperPower} type="text"
-                       placeholder={el.superpowers}/>
+                <input onChange={onSuperPowerChanged} onFocus={true} onBlur={() => deactivatedEditModeSuperPower(el.id)}
+                       type="text"
+                       value={superPower}/>
             }
             {!editModeCatchPhrase
                 ? <td onClick={onActivatedEditModeCatchPhrase}
                       className={'heroTableField'}>{el.catch_phrase ? el.catch_phrase : 'unknown'}</td>
-                : <input onChange={onCatchPhraseChanged} onFocus={true} onBlur={deactivatedEditModeCatchPhrase}
+                : <input onChange={onCatchPhraseChanged} onFocus={true} onBlur={() =>deactivatedEditModeCatchPhrase(el.id)}
                          type="text"
-                         placeholder={el.catch_phrase}/>
+                         placeholder={catchPhrase}/>
             }
             <td>{el.images
                 ? <img className={'heroImage'} src={el.images} alt=""/>

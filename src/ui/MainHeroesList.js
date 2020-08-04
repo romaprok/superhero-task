@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import {useDispatch, useSelector} from 'react-redux';
-import {deleteHero, getData, setHeroImage, setNewHeroNickName} from '../bll/dataReducer';
+import {addNewHero, deleteHero, getData, setHeroImage} from '../bll/dataReducer';
 import superHero from '../assets/superhero.jpg'
 import {NavLink} from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
 import Pagination from '@material-ui/lab/Pagination';
+import {withStyles} from '@material-ui/core/styles';
 
 function MainHeroesList() {
     const dispatch = useDispatch()
@@ -14,6 +15,8 @@ function MainHeroesList() {
     useEffect(() => {
         dispatch(getData())
     }, [])
+
+
 
     const onMainPhotoSelected = (e, id) => {
         if (e.target.files.length) {
@@ -24,7 +27,6 @@ function MainHeroesList() {
     const [error, setError] = useState(false)
 
     const onClickDeleteHero = (heroId) => {
-        debugger
         dispatch(deleteHero(heroId))
     }
     // const currentPage = useSelector(state => state.reducer.data.currentPage)
@@ -53,31 +55,35 @@ function MainHeroesList() {
     const pageSize = useSelector(state => state.reducer.pageSize);
     const totalUserCount = useSelector(state => state.reducer.totalUsersCount);
 
-    const [newNickName, setNewNickName] = useState('')
+    const [nickName, setNewNickName] = useState('')
 
-    const heroNickNameChange = (e) => setNewNickName(e.currentTarget.value)
+    const heroNickNameChange = (e) => {
+        setError(false)
+        setNewNickName(e.currentTarget.value)}
 
     const addHero = () => {
-        if (!newNickName) {
+        if (!nickName) {
             setError(true)
         } else {
+            debugger
             setError(false)
-            let nickname = newNickName
-            dispatch(setNewHeroNickName(nickname))
+            let newNickname = nickName
+            dispatch(addNewHero(newNickname))
+            setNewNickName('')
         }
     }
 
     return (
         <div className="App">
-            <Pagination count={10} page={2} color="primary" onChange={() => {
+            <Pagination count={10} page={1} color="primary" onChange={() => {
             }}/>
             {/*<Paginator currentPage={currentPage}*/}
             {/*           // onPageChanged={onPageChanged}*/}
             {/*           totalItemsCount={totalItemsCount} pageSize={pageSize}/>*/}
-            <Input className={error ? 'error' : ''}
+            <Input error={error ? error : ''}
                    onChange={heroNickNameChange}
                    type="text"
-                   placeholder={'nickname'}/>
+                   value={nickName}/>
             <Button variant={'contained'} onClick={addHero}>add super hero</Button>
             <div>
                 {hero}

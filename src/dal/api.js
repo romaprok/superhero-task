@@ -16,7 +16,7 @@ export const dataApi = {
             .then(res => res.data)
             .catch(e => alert(e))
     },
-    setNewHeroNickName(nickname) {
+    addNewHero(nickname) {
         return instance.post('', {nickname})
             .then(res => res.data)
             .catch(e => alert(e))
@@ -26,11 +26,33 @@ export const dataApi = {
             .then(res => res.data)
             .catch(e => alert(e))
     },
-    setHeroFeature(feature) {
-        return instance.post('', {feature})
+    setHeroNickName(heroId, nickname) {
+        return instance.patch(`${heroId}`, {nickname})
             .then(res => res.data)
             .catch(e => alert(e))
     },
+    renameHero(heroId, real_name) {
+        return instance.patch(`${heroId}`, {real_name})
+            .then(res => res.data)
+            .catch(e => alert(e))
+    },
+    setHeroDescription(heroId, origin_description) {
+        return instance.patch(`${heroId}`, {origin_description})
+            .then(res => res.data)
+            .catch(e => alert(e))
+    },
+    setHeroSuperpowers(heroId, superpowers) {
+        return instance.patch(`${heroId}`, {superpowers})
+            .then(res => res.data)
+            .catch(e => alert(e))
+    },
+    setHeroCatchPhrase(heroId, catch_phrase) {
+        return instance.patch(`${heroId}`, {catch_phrase})
+            .then(res => res.data)
+            .catch(e => alert(e))
+    },
+
+
     savePhoto(photoFile, id) {
         const formData = new FormData()
         formData.append('image', photoFile, id)

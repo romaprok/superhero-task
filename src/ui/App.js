@@ -9,7 +9,7 @@ function App() {
     return (
         <Switch>
             <Route exact path={'/'} component={MainHeroesList}/>
-            <Route path={'/heroData/:id'} component={<HeroData/>}/>
+            <Route path={'/heroData/:id'} component={HeroData}/>
         </Switch>
     )
 }
