@@ -1,21 +1,21 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
 import {useDispatch, useSelector} from 'react-redux';
-import {addNewHero, deleteHero, getData, setHeroImage} from '../bll/dataReducer';
+import {addNewHero, deleteHero, getData, setCurrentPageSuccess, setHeroImage} from '../bll/dataReducer';
 import superHero from '../assets/superhero.jpg'
 import {NavLink} from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
 import Pagination from '@material-ui/lab/Pagination';
 import {withStyles} from '@material-ui/core/styles';
+import {SET_CURRENT_PAGE} from "./common/constants";
 
 function MainHeroesList() {
     const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch(getData())
+        dispatch(getData(currentPage, pageSize))
     }, [])
-
 
 
     const onMainPhotoSelected = (e, id) => {
@@ -25,6 +25,7 @@ function MainHeroesList() {
     }
 
     const [error, setError] = useState(false)
+    // const [portionNumber, setPortionNumber] = useState(1)
 
     const onClickDeleteHero = (heroId) => {
         dispatch(deleteHero(heroId))
@@ -51,7 +52,8 @@ function MainHeroesList() {
             </div>
         </div>)
 
-    const page = useSelector(state => state.reducer.currentPage);
+    const currentPage = useSelector(state => state.reducer.currentPage);
+    const data = useSelector(state => state.reducer.data);
     const pageSize = useSelector(state => state.reducer.pageSize);
     const totalUserCount = useSelector(state => state.reducer.totalUsersCount);
 
@@ -59,7 +61,8 @@ function MainHeroesList() {
 
     const heroNickNameChange = (e) => {
         setError(false)
-        setNewNickName(e.currentTarget.value)}
+        setNewNickName(e.currentTarget.value)
+    }
 
     const addHero = () => {
         if (!nickName) {
@@ -72,11 +75,25 @@ function MainHeroesList() {
             setNewNickName('')
         }
     }
+    const [page, setCurrentPage] = useState(1)
 
+    const changeCurrentPage = (e) => {
+        setCurrentPage(+e.currentTarget.innerText)
+    }
+    const onchangeCurrentPageClick = () => {
+        debugger
+        dispatch(setCurrentPageSuccess(page))
+    }
+    const count = Math.ceil(data.length / pageSize)
+    console.log(count)
+    console.log(data)
+    console.log(pageSize)
+    console.log(page)
     return (
         <div className="App">
-            <Pagination count={10} page={1} color="primary" onChange={() => {
-            }}/>
+            <Pagination
+                onClick={onchangeCurrentPageClick}
+                        count={count} page={page} color='primary' onChange={(e)=>changeCurrentPage(e)}/>
             {/*<Paginator currentPage={currentPage}*/}
             {/*           // onPageChanged={onPageChanged}*/}
             {/*           totalItemsCount={totalItemsCount} pageSize={pageSize}/>*/}

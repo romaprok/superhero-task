@@ -74,7 +74,9 @@ function HeroData(props) {
             {!editModeNickName
                 ? <td onClick={onActivatedEditModeNickName}
                       className={'heroTableField'}>{el.nickname ? el.nickname : 'unknown'}</td>
-                : <input onChange={onNickNameChanged} value={nickname} autoFocus={true}
+                : <input onChange={onNickNameChanged}
+                         value={nickname}
+                         autoFocus={true} placeholder={nickname}
                          onBlur={() => deactivatedEditModeNickName(el.id)}
                          type="text"/>
             }
@@ -82,13 +84,13 @@ function HeroData(props) {
                 ? <td onClick={onActivatedEditModeName}
                       className={'heroTableField'}>{el.real_name ? el.real_name : 'unknown'}</td>
                 :
-                <input onChange={onNameChanged} onFocus={true} onBlur={() => deactivatedEditModeName(el.id)} type="text"
+                <input onChange={onNameChanged} autoFocus={true} onBlur={() => deactivatedEditModeName(el.id)} type="text"
                        value={name}/>
             }
             {!editModeDescription
                 ? <td onClick={onActivatedEditModeDescription}
                       className={'heroTableField'}>{el.origin_description ? el.origin_description : 'unknown'}</td>
-                : <input onChange={onDescriptionChanged} onFocus={true}
+                : <input onChange={onDescriptionChanged} autoFocus={true}
                          onBlur={() => deactivatedEditModeDescription(el.id)}
                          type="text"
                          value={description}/>
@@ -97,14 +99,14 @@ function HeroData(props) {
                 ? <td onClick={onActivatedEditModeSuperPower}
                       className={'heroTableField'}>{el.superpowers ? el.superpowers : 'unknown'}</td>
                 :
-                <input onChange={onSuperPowerChanged} onFocus={true} onBlur={() => deactivatedEditModeSuperPower(el.id)}
+                <input onChange={onSuperPowerChanged} autoFocus={true} onBlur={() => deactivatedEditModeSuperPower(el.id)}
                        type="text"
                        value={superPower}/>
             }
             {!editModeCatchPhrase
                 ? <td onClick={onActivatedEditModeCatchPhrase}
                       className={'heroTableField'}>{el.catch_phrase ? el.catch_phrase : 'unknown'}</td>
-                : <input onChange={onCatchPhraseChanged} onFocus={true} onBlur={() =>deactivatedEditModeCatchPhrase(el.id)}
+                : <input onChange={onCatchPhraseChanged} autoFocus={true} onBlur={() =>deactivatedEditModeCatchPhrase(el.id)}
                          type="text"
                          placeholder={catchPhrase}/>
             }

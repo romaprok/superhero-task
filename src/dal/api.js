@@ -1,13 +1,13 @@
 import axios from 'axios'
-import {setHeroImage} from "../bll/dataReducer";
 
 const instance = axios.create({
     baseURL: 'http://localhost:3004/superhero/'
 })
 
 export const dataApi = {
-    getData(page, pageSize) {
-        return instance.get('')
+    getData(currentPage = 1, pageSize = 3) {
+        debugger
+        return instance.get(`?currentPage=${currentPage}&pageSize=${pageSize}`)
             .then(res => res.data)
             .catch(e => alert(e))
     },
@@ -42,6 +42,7 @@ export const dataApi = {
             .catch(e => alert(e))
     },
     setHeroSuperpowers(heroId, superpowers) {
+        debugger
         return instance.patch(`${heroId}`, {superpowers})
             .then(res => res.data)
             .catch(e => alert(e))

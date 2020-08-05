@@ -2,10 +2,14 @@ import {dataApi} from '../dal/api';
 import {
     ADD_HERO_NICKNAME,
     DELETE_HERO_SUCCESS,
-    GET_DATA, RENAME_HERO,
-    SAVE_PHOTO_SUCCESS, SET_HERO_CATCH_PHRASE, SET_HERO_DESCRIPTION,
-    SET_HERO_FEATURE,
-    SET_HERO_ID, SET_HERO_NICKNAME, SET_HERO_SUPERPOWERS
+    GET_DATA,
+    RENAME_HERO,
+    SAVE_PHOTO_SUCCESS, SET_CURRENT_PAGE,
+    SET_HERO_CATCH_PHRASE,
+    SET_HERO_DESCRIPTION,
+    SET_HERO_ID,
+    SET_HERO_NICKNAME,
+    SET_HERO_SUPERPOWERS
 } from '../ui/common/constants';
 import {encodeImageFileAsURL} from '../utils/image-utils';
 
@@ -15,7 +19,7 @@ const initialState = {
     ],
     currentHeroId: null,
     heroData: [],
-    pageSize: 5,
+    pageSize: 3,
     totalUsersCount: 0,
     currentPage: 1,
 }
@@ -23,12 +27,12 @@ const initialState = {
 const dataReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_DATA: {
+            debugger
             return {
-                ...state, data: action.data
+                ...state, data: action.data, currentPage: action.currentPage
             }
         }
         case SET_HERO_ID: {
-            debugger
             return {
                 ...state, data: [action.currentHeroId]
             }
@@ -49,13 +53,11 @@ const dataReducer = (state = initialState, action) => {
             }
         }
         case SET_HERO_NICKNAME: {
-            debugger
             return {
                 ...state, data: state.data.map(el => {
                         if (el.id === action.heroId) {
-                            debugger
                             return {
-                            ...el, nickname:action.nickname
+                                ...el, nickname: action.nickname
                             }
                         } else return el
 
@@ -64,13 +66,12 @@ const dataReducer = (state = initialState, action) => {
             }
         }
         case RENAME_HERO: {
-            debugger
             return {
                 ...state, data: state.data.map(el => {
                         if (el.id === action.heroId) {
                             debugger
                             return {
-                            ...el, real_name:action.name
+                                ...el, real_name: action.name
                             }
                         } else return el
 
@@ -79,28 +80,23 @@ const dataReducer = (state = initialState, action) => {
             }
         }
         case SET_HERO_DESCRIPTION: {
-            debugger
             return {
                 ...state, data: state.data.map(el => {
                         if (el.id === action.heroId) {
-                            debugger
                             return {
-                            ...el, origin_description:action.description
+                                ...el, origin_description: action.description
                             }
                         } else return el
-
                     }
                 )
             }
         }
         case SET_HERO_SUPERPOWERS: {
-            debugger
             return {
                 ...state, data: state.data.map(el => {
                         if (el.id === action.heroId) {
-                            debugger
                             return {
-                            ...el, superpowers:action.superpowers
+                                ...el, superpowers: action.superpowers
                             }
                         } else return el
 
@@ -109,16 +105,13 @@ const dataReducer = (state = initialState, action) => {
             }
         }
         case SET_HERO_CATCH_PHRASE: {
-            debugger
             return {
                 ...state, data: state.data.map(el => {
                         if (el.id === action.heroId) {
-                            debugger
                             return {
-                            ...el, catch_phrase:action.catchPhrase
+                                ...el, catch_phrase: action.catchPhrase
                             }
                         } else return el
-
                     }
                 )
             }
@@ -128,16 +121,23 @@ const dataReducer = (state = initialState, action) => {
                 ...state, data: state.data.filter(el => el.id !== action.heroId)
             }
         }
+        case SET_CURRENT_PAGE: {
+            debugger
+            return {
+                ...state, currentPage: action.currentPage
+            }
+        }
         default:
             return state
     }
 }
 export default dataReducer
 
-const getDataSuccess = (data) => ({type: GET_DATA, data})
+const getDataSuccess = (data, currentPage) => ({type: GET_DATA, data, currentPage})
 const addNewHeroSuccess = (nickname) => ({type: ADD_HERO_NICKNAME, nickname})
 const setCurrentHeroId = (currentHeroId) => ({type: SET_HERO_ID, currentHeroId})
 const setPhotoSuccess = (image, id) => ({type: SAVE_PHOTO_SUCCESS, image, id})
+export const setCurrentPageSuccess = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage})
 
 const setNewHeroNickNameSuccess = (heroId, nickname) => ({type: SET_HERO_NICKNAME, heroId, nickname})
 const renameHeroSuccess = (heroId, name) => ({type: RENAME_HERO, heroId, name})
@@ -147,9 +147,10 @@ const setHeroCatchPhraseSuccess = (heroId, catchPhrase) => ({type: SET_HERO_CATC
 
 const deleteHeroSuccess = (heroId) => ({type: DELETE_HERO_SUCCESS, heroId})
 
-export const getData = () => async (dispatch) => {
+export const getData = (currentPage, pageSize) => async (dispatch) => {
     try {
-        let res = await dataApi.getData()
+        debugger
+        let res = await dataApi.getData(currentPage, pageSize)
         dispatch(getDataSuccess(res))
     } catch (e) {
         console.log(e)
@@ -163,6 +164,14 @@ export const setHeroId = (currentHeroId) => async (dispatch) => {
         console.log(e)
     }
 }
+// export const setCurrentPage = (currentPage) => async (dispatch) => {
+//     try {
+//         let res = await dataApi.setHeroId(currentHeroId)
+//         dispatch(setCurrentHeroId(res))
+//     } catch (e) {
+//         console.log(e)
+//     }
+// }
 export const setNewHeroNickName = (heroId, nickname) => async (dispatch) => {
     debugger
     try {

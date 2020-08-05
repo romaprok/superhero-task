@@ -9,6 +9,7 @@ function App() {
     return (
         <Switch>
             <Route exact path={'/'} component={MainHeroesList}/>
+            <Route exact path={'/superhero-task'} component={MainHeroesList}/>
             <Route path={'/heroData/:id'} component={HeroData}/>
         </Switch>
     )
