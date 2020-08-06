@@ -1,23 +1,22 @@
 import axios from 'axios'
 
 const instance = axios.create({
-    baseURL: 'http://localhost:3004/superhero/'
+    baseURL: 'http://localhost:3004/superhero'
 })
 
 export const dataApi = {
     getData(currentPage = 1, pageSize = 3) {
-        debugger
-        return instance.get(`?currentPage=${currentPage}&pageSize=${pageSize}`)
+        return instance.get(`?_page=${currentPage}&_limit=${pageSize}`)
             .then(res => res.data)
             .catch(e => alert(e))
     },
     setHeroId(id) {
-        return instance.get(`${id}`)
+        return instance.get(`/${id}`)
             .then(res => res.data)
             .catch(e => alert(e))
     },
     addNewHero(nickname) {
-        return instance.post('', {nickname})
+        return instance.post('/', {nickname})
             .then(res => res.data)
             .catch(e => alert(e))
     },
@@ -27,12 +26,12 @@ export const dataApi = {
             .catch(e => alert(e))
     },
     setHeroNickName(heroId, nickname) {
-        return instance.patch(`${heroId}`, {nickname})
+        return instance.patch(`/${heroId}`, {nickname})
             .then(res => res.data)
             .catch(e => alert(e))
     },
     renameHero(heroId, real_name) {
-        return instance.patch(`${heroId}`, {real_name})
+        return instance.patch(`/${heroId}`, {real_name})
             .then(res => res.data)
             .catch(e => alert(e))
     },
@@ -42,13 +41,12 @@ export const dataApi = {
             .catch(e => alert(e))
     },
     setHeroSuperpowers(heroId, superpowers) {
-        debugger
-        return instance.patch(`${heroId}`, {superpowers})
+        return instance.patch(`/${heroId}`, {superpowers})
             .then(res => res.data)
             .catch(e => alert(e))
     },
     setHeroCatchPhrase(heroId, catch_phrase) {
-        return instance.patch(`${heroId}`, {catch_phrase})
+        return instance.patch(`/${heroId}`, {catch_phrase})
             .then(res => res.data)
             .catch(e => alert(e))
     },
@@ -64,9 +62,17 @@ export const dataApi = {
         })
     },
     setHeroImage(image, heroId) {
-        const response = instance.post('/images', image, heroId)
+        debugger
+        const response = instance.patch(`/id=${heroId}&images=${image}`, image, heroId)
             .then(res => res.data)
             .catch(e => alert(e))
-    }
+    },
 
+    postFile(file) {
+        debugger
+        return instance.post('/file', {file})
+            .then(response => {
+                return response.data
+            })
+    }
 }

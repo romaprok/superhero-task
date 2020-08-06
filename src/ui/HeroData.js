@@ -70,69 +70,74 @@ function HeroData(props) {
     const [superPower, changeSuperPower] = useState(el.superpowers)
     const [catchPhrase, changeCatchPhrase] = useState(el.catch_phrase)
     const fullHeroData = (
-        <tr>
-            {!editModeNickName
-                ? <td onClick={onActivatedEditModeNickName}
-                      className={'heroTableField'}>{el.nickname ? el.nickname : 'unknown'}</td>
-                : <input onChange={onNickNameChanged}
+        <div>
+            <div> {!editModeNickName
+                ? <span onClick={onActivatedEditModeNickName}
+                        className={'heroTableField'}>{el.nickname ? el.nickname : 'unknown'}</span>
+                : <input className={'heroTableInput'} onChange={onNickNameChanged}
                          value={nickname}
                          autoFocus={true} placeholder={nickname}
                          onBlur={() => deactivatedEditModeNickName(el.id)}
                          type="text"/>
-            }
-            {!editModeName
-                ? <td onClick={onActivatedEditModeName}
-                      className={'heroTableField'}>{el.real_name ? el.real_name : 'unknown'}</td>
-                :
-                <input onChange={onNameChanged} autoFocus={true} onBlur={() => deactivatedEditModeName(el.id)} type="text"
+            }</div>
+            <div> {!editModeName
+                ? <span onClick={onActivatedEditModeName}
+                        className={'heroTableField'}>{el.real_name ? el.real_name : 'unknown'}</span>
+                : <input className={'heroTableInput'} onChange={onNameChanged} autoFocus={true}
+                       onBlur={() => deactivatedEditModeName(el.id)} type="text"
                        value={name}/>
-            }
-            {!editModeDescription
-                ? <td onClick={onActivatedEditModeDescription}
-                      className={'heroTableField'}>{el.origin_description ? el.origin_description : 'unknown'}</td>
-                : <input onChange={onDescriptionChanged} autoFocus={true}
-                         onBlur={() => deactivatedEditModeDescription(el.id)}
-                         type="text"
-                         value={description}/>
-            }
-            {!editModeSuperPower
-                ? <td onClick={onActivatedEditModeSuperPower}
-                      className={'heroTableField'}>{el.superpowers ? el.superpowers : 'unknown'}</td>
-                :
-                <input onChange={onSuperPowerChanged} autoFocus={true} onBlur={() => deactivatedEditModeSuperPower(el.id)}
-                       type="text"
-                       value={superPower}/>
-            }
-            {!editModeCatchPhrase
-                ? <td onClick={onActivatedEditModeCatchPhrase}
-                      className={'heroTableField'}>{el.catch_phrase ? el.catch_phrase : 'unknown'}</td>
-                : <input onChange={onCatchPhraseChanged} autoFocus={true} onBlur={() =>deactivatedEditModeCatchPhrase(el.id)}
+            }</div>
+            <div>
+                {!editModeDescription
+                    ? <span onClick={onActivatedEditModeDescription}
+                            className={'heroTableField'}>{el.origin_description ? el.origin_description : 'unknown'}</span>
+                    : <input className={'heroTableInput'} onChange={onDescriptionChanged} autoFocus={true}
+                             onBlur={() => deactivatedEditModeDescription(el.id)}
+                             type="text"
+                             value={description}/>
+                }</div>
+            <div>
+                {!editModeSuperPower
+                    ? <span onClick={onActivatedEditModeSuperPower}
+                            className={'heroTableField'}>{el.superpowers ? el.superpowers : 'unknown'}</span>
+                    : <input className={'heroTableInput'} onChange={onSuperPowerChanged} autoFocus={true}
+                           onBlur={() => deactivatedEditModeSuperPower(el.id)}
+                           type="text"
+                           value={superPower}/>
+                }</div>
+            <div> {!editModeCatchPhrase
+                ? <span onClick={onActivatedEditModeCatchPhrase}
+                        className={'heroTableField'}>{el.catch_phrase ? el.catch_phrase : 'unknown'}</span>
+                : <input className={'heroTableInput'} onChange={onCatchPhraseChanged} autoFocus={true}
+                         onBlur={() => deactivatedEditModeCatchPhrase(el.id)}
                          type="text"
                          placeholder={catchPhrase}/>
-            }
-            <td>{el.images
+            }</div>
+            <div>{el.images
                 ? <img className={'heroImage'} src={el.images} alt=""/>
                 : <img className={'heroImage'} src={superHero} alt=""/>}
-            </td>
-        </tr>
+            </div>
+
+        </div>
     )
 
     return (
         <>
             <button><NavLink to={'/'}>back to main menu</NavLink></button>
-            <div className="hero">
-                <table>
-                    <tr>
-                        <th>nickname</th>
-                        <th>real name</th>
-                        <th>description</th>
-                        <th>superpowers</th>
-                        <th>catch phrase</th>
-                        <th>image</th>
-                    </tr>
-                    {fullHeroData}
-                </table>
+            {/*<div className="hero">*/}
+            <div className={'heroWrapper'}>
+                <div>
+                    <div>nickname</div>
+                    <div>name</div>
+                    <div>description</div>
+                    <div>superpowers</div>
+                    <div>catch phrase</div>
+                    <div>image</div>
+                </div>
+                {fullHeroData}
             </div>
+
+            {/*</div>*/}
         </>
     );
 }

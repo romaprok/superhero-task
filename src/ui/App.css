@@ -25,6 +25,15 @@
 .error{
     border-color: red;
 }
+.heroTableInput{
+  width: content-box;
+}
+.heroWrapper{
+  display: flex;
+}
+.heroWrapper div{
+  margin: 50px;
+}
 button a{
   text-decoration: none;
   color: black;
