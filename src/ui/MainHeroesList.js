@@ -27,7 +27,7 @@ function MainHeroesList() {
 
     useEffect(() => {
         dispatch(getData(page))
-    }, [page, ])
+    }, [page])
 
     useEffect(() => {
         return () => {
@@ -66,7 +66,8 @@ function MainHeroesList() {
     const onClickDeleteHero = (heroId) => {
         dispatch(deleteHero(heroId))
     }
-
+    const newData = useSelector(state=>state.reducer.data)
+    console.log(newData)
     const hero = useSelector(state => state.reducer.data).map((el, i) =>
         <div className={'hero'} id={el.id} key={i}>
             <div className={'heroNickName'}>{el.nickname}</div>

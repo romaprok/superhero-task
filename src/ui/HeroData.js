@@ -36,7 +36,7 @@ function HeroData(props) {
 
     const deactivatedEditModeNickName = (heroId) => {
         setEditModeNickName(false)
-        dispatch(setNewHeroNickName(heroId, nickname))
+        dispatch(setNewHeroNickName(heroId, superName))
     }
     const deactivatedEditModeName = (heroId) => {
         setEditModeName(false)
@@ -63,8 +63,7 @@ function HeroData(props) {
 
 
     const [el] = useSelector(state => state.reducer.data)
-
-    const [nickname, changeNickName] = useState(el.nickname)
+    const [superName, changeNickName] = useState(el.nickname)
     const [name, changeName] = useState(el.real_name)
     const [description, changeDescription] = useState(el.origin_description)
     const [superPower, changeSuperPower] = useState(el.superpowers)
@@ -73,10 +72,10 @@ function HeroData(props) {
         <div>
             <div> {!editModeNickName
                 ? <span onClick={onActivatedEditModeNickName}
-                        className={'heroTableField'}>{el.nickname ? el.nickname : 'unknown'}</span>
+                        className={'heroTableField'}>{el.nickname ? superName : 'unknown'}</span>
                 : <input className={'heroTableInput'} onChange={onNickNameChanged}
-                         value={nickname}
-                         autoFocus={true} placeholder={nickname}
+                         value={superName}
+                         autoFocus={true}
                          onBlur={() => deactivatedEditModeNickName(el.id)}
                          type="text"/>
             }</div>
@@ -84,8 +83,8 @@ function HeroData(props) {
                 ? <span onClick={onActivatedEditModeName}
                         className={'heroTableField'}>{el.real_name ? el.real_name : 'unknown'}</span>
                 : <input className={'heroTableInput'} onChange={onNameChanged} autoFocus={true}
-                       onBlur={() => deactivatedEditModeName(el.id)} type="text"
-                       value={name}/>
+                         onBlur={() => deactivatedEditModeName(el.id)} type="text"
+                         value={name}/>
             }</div>
             <div>
                 {!editModeDescription
@@ -101,9 +100,9 @@ function HeroData(props) {
                     ? <span onClick={onActivatedEditModeSuperPower}
                             className={'heroTableField'}>{el.superpowers ? el.superpowers : 'unknown'}</span>
                     : <input className={'heroTableInput'} onChange={onSuperPowerChanged} autoFocus={true}
-                           onBlur={() => deactivatedEditModeSuperPower(el.id)}
-                           type="text"
-                           value={superPower}/>
+                             onBlur={() => deactivatedEditModeSuperPower(el.id)}
+                             type="text"
+                             value={superPower}/>
                 }</div>
             <div> {!editModeCatchPhrase
                 ? <span onClick={onActivatedEditModeCatchPhrase}
