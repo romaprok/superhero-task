@@ -63,6 +63,8 @@ function HeroData(props) {
 
 
     const [el] = useSelector(state => state.reducer.data)
+
+
     const [superName, changeNickName] = useState(el.nickname)
     const [name, changeName] = useState(el.real_name)
     const [description, changeDescription] = useState(el.origin_description)
