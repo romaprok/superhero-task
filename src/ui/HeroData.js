@@ -122,7 +122,6 @@ function HeroData(props) {
 
         </div>
     )
-
     return (
         <>
             <button><NavLink to={'/'}>back to main menu</NavLink></button>
