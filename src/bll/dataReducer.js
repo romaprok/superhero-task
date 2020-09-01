@@ -26,6 +26,7 @@ const initialState = {
 const dataReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_DATA: {
+            debugger
             return {
                 ...state, data: action.data
             }

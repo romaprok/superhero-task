@@ -26,7 +26,7 @@ function HeroData(props) {
     useEffect(() => {
         let id = props.match.params.id
         dispatch(setHeroId(+id))
-    }, [])
+    }, [props.match.params.id])
 
     const onActivatedEditModeNickName = () => setEditModeNickName(true)
     const onActivatedEditModeName = () => setEditModeName(true)
@@ -72,6 +72,10 @@ function HeroData(props) {
     const [superPower, changeSuperPower] = useState(el.superpowers)
     const [catchPhrase, changeCatchPhrase] = useState(el.catch_phrase)
 
+    useEffect(() => {
+        changeNickName(el.nickname)
+    }, [el.nickname])
+
 
     const fullHeroData = (
         <div>
@@ -86,7 +90,7 @@ function HeroData(props) {
             }</div>
             <div> {!editModeName
                 ? <span onClick={onActivatedEditModeName}
-                        className={'heroTableField'}>{el.real_name ? el.real_name : 'unknown'}</span>
+                        className={'heroTableField'}>{el.real_name ? name : 'unknown'}</span>
                 : <input className={'heroTableInput'} onChange={onNameChanged} autoFocus={true}
                          onBlur={() => deactivatedEditModeName(el.id)} type="text"
                          value={name}/>
