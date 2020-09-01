@@ -12,7 +12,7 @@ function MainHeroesList() {
     const dispatch = useDispatch()
     const inRef = useRef(null)
 
-    const currentPage = useSelector(state => state.reducer.currentPage);
+    const totalUsersCount = useSelector(state => state.reducer.totalUsersCount);
     const data = useSelector(state => state.reducer.data);
     const pageSize = useSelector(state => state.reducer.pageSize);
     const [page, setCurrentPage] = useState(1)
@@ -117,8 +117,8 @@ function MainHeroesList() {
         (setCurrentPage(+e.currentTarget.innerText))
     }
 
-    const count = Math.ceil(data.length / pageSize)
-    console.log(data)
+    const count = Math.ceil(totalUsersCount / pageSize)
+    console.log(totalUsersCount)
     console.log(pageSize)
     console.log(page)
     return (

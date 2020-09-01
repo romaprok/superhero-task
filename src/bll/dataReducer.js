@@ -26,9 +26,8 @@ const initialState = {
 const dataReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_DATA: {
-            debugger
             return {
-                ...state, data: action.data
+                ...state, data: action.data.items, totalUsersCount: action.data.length
             }
         }
         case SET_HERO_ID: {
@@ -37,13 +36,11 @@ const dataReducer = (state = initialState, action) => {
             }
         }
         case ADD_HERO_NICKNAME: {
-            debugger
             return {
                 ...state, data: [...state.data, action.nickname]
             }
         }
         case SAVE_PHOTO_SUCCESS: {
-            debugger
             return {
                 ...state,
                 data: {
@@ -239,7 +236,6 @@ export const deleteHero = (heroId) => async (dispatch) => {
 //     }
 // }
 export const setHeroImage = (image, heroId) => async (dispatch) => {
-    debugger
     try {
         debugger
         await dataApi.setHeroImage(image, heroId)
