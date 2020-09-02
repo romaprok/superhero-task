@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import './App.css';
 import {useDispatch, useSelector} from 'react-redux';
-import {addNewHero, deleteHero, getData, setHeroImage} from '../bll/dataReducer';
+import {addNewHero, deleteHero, getData, getFullHeroesData, setHeroImage} from '../bll/dataReducer';
 import superHero from '../assets/superhero.jpg'
 import {NavLink} from 'react-router-dom';
 import Button from '@material-ui/core/Button';
@@ -13,7 +13,6 @@ function MainHeroesList() {
     const inRef = useRef(null)
 
     const totalUsersCount = useSelector(state => state.reducer.totalUsersCount);
-    const data = useSelector(state => state.reducer.data);
     const pageSize = useSelector(state => state.reducer.pageSize);
     const [page, setCurrentPage] = useState(1)
 
@@ -26,8 +25,10 @@ function MainHeroesList() {
     const [base64, setBase64] = useState(true);
 
     useEffect(() => {
+        debugger
         dispatch(getData(page))
-    }, [page])
+        dispatch(getFullHeroesData())
+    }, [page, totalUsersCount, pageSize])
 
     useEffect(() => {
         return () => {
@@ -51,7 +52,6 @@ function MainHeroesList() {
             if (code) {
                 reader.onloadend = () => {
                     setFile64(reader.result);
-
                 };
                 if (base64) {
                     reader.readAsDataURL(newFile);
@@ -66,7 +66,7 @@ function MainHeroesList() {
     const onClickDeleteHero = (heroId) => {
         dispatch(deleteHero(heroId))
     }
-    const newData = useSelector(state=>state.reducer.data)
+    const newData = useSelector(state => state.reducer.data)
     console.log(newData)
     const hero = useSelector(state => state.reducer.data).map((el, i) =>
         <div className={'hero'} id={el.id} key={i}>
@@ -117,13 +117,10 @@ function MainHeroesList() {
         (setCurrentPage(+e.currentTarget.innerText))
     }
 
-    const count = Math.ceil(totalUsersCount / pageSize)
-    console.log(totalUsersCount)
-    console.log(pageSize)
-    console.log(page)
+    const pageNumber = Math.ceil(totalUsersCount / pageSize)
     return (
         <div className="App">
-            <Pagination count={count} page={page} color='primary' onChange={changeCurrentPage}/>
+            <Pagination count={pageNumber} page={page} color='primary' onChange={changeCurrentPage}/>
             <Input error={error ? error : ''}
                    onChange={heroNickNameChange}
                    type="text"

@@ -2,7 +2,7 @@ import {dataApi} from '../dal/api';
 import {
     ADD_HERO_NICKNAME,
     DELETE_HERO_SUCCESS,
-    GET_DATA,
+    GET_DATA, GET_FULL_HEROES_LENGTH,
     RENAME_HERO,
     SAVE_PHOTO_SUCCESS,
     SET_HERO_CATCH_PHRASE,
@@ -25,9 +25,16 @@ const initialState = {
 
 const dataReducer = (state = initialState, action) => {
     switch (action.type) {
-        case GET_DATA: {
+        case GET_FULL_HEROES_LENGTH: {
+            debugger
             return {
-                ...state, data: action.data.items, totalUsersCount: action.data.length
+                ...state, totalUsersCount: action.length.data
+            }
+        }
+        case GET_DATA: {
+            debugger
+            return {
+                ...state, data: action.data.response
             }
         }
         case SET_HERO_ID: {
@@ -123,13 +130,13 @@ const dataReducer = (state = initialState, action) => {
                 ...state, data: state.data.filter(el => el.id !== action.heroId)
             }
         }
-
         default:
             return state
     }
 }
 export default dataReducer
 
+const getFullHeroesLength = (length) => ({type: GET_FULL_HEROES_LENGTH, length})
 const getDataSuccess = (data) => ({type: GET_DATA, data})
 const addNewHeroSuccess = (nickname) => ({type: ADD_HERO_NICKNAME, nickname})
 const setCurrentHeroId = (currentHeroId) => ({type: SET_HERO_ID, currentHeroId})
@@ -149,8 +156,20 @@ const setHeroCatchPhraseSuccess = (heroId, catchPhrase) => ({type: SET_HERO_CATC
 const deleteHeroSuccess = (heroId) => ({type: DELETE_HERO_SUCCESS, heroId})
 
 
-export const getData = (currentPage) => async (dispatch) => {
+export const getFullHeroesData = () => async (dispatch) => {
+    debugger
     try {
+        debugger
+        let res = await dataApi.getFullHeroesLength()
+        dispatch(getFullHeroesLength(res))
+    } catch (e) {
+        console.log(e)
+    }
+}
+export const getData = (currentPage) => async (dispatch) => {
+    debugger
+    try {
+        debugger
         let res = await dataApi.getData(currentPage)
         dispatch(getDataSuccess(res))
     } catch (e) {

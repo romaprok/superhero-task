@@ -74,7 +74,11 @@ function HeroData(props) {
 
     useEffect(() => {
         changeNickName(el.nickname)
-    }, [el.nickname])
+        changeName(el.real_name)
+        changeDescription(el.origin_description)
+        changeSuperPower(el.superpowers)
+        changeCatchPhrase(el.catch_phrase)
+    }, [el.nickname, el.real_name, el.origin_description, el.superpowers, el.catch_phrase])
 
 
     const fullHeroData = (

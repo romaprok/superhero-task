@@ -1,18 +1,31 @@
 import axios from 'axios'
 
 const instance = axios.create({
-    baseURL: 'http://localhost:3004/superhero'
+    baseURL: 'http://localhost:3004/superhero/'
 })
 
 export const dataApi = {
+    getFullHeroesLength() {
+        return instance.get(``).then(res => {
+            debugger
+            let data = res.data.length
+            return {
+                data
+            }
+        })
+    },
     getData(currentPage = 1, pageSize = 3) {
+        debugger
         return instance.get(`?_page=${currentPage}&_limit=${pageSize}`)
-            .then(res =>{
-                let length = res.data.items.length
-                let items = res.data.items
-                return{
-                    items, length
-                }} )
+            .then(res => {
+                debugger
+                // let length = res.data.items.length
+                let response = res.data
+                let length = res.data.length
+                return {
+                    response, length
+                }
+            })
             .catch(e => alert(e))
     },
     setHeroId(id) {
