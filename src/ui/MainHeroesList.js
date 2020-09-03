@@ -13,9 +13,10 @@ function MainHeroesList() {
     const inRef = useRef(null)
 
     const totalUsersCount = useSelector(state => state.reducer.totalUsersCount);
-    const pageSize = useSelector(state => state.reducer.pageSize);
-    const [page, setCurrentPage] = useState(1)
 
+    const pageSize = useSelector(state => state.reducer.pageSize);
+
+    const [page, setCurrentPage] = useState(1)
     const [code, setCode] = useState(true);
     const [text, setText] = useState('');
     const [file, setFile] = useState();
@@ -25,11 +26,11 @@ function MainHeroesList() {
     const [base64, setBase64] = useState(true);
 
     useEffect(() => {
-        debugger
         dispatch(getData(page))
-        dispatch(getFullHeroesData())
+        dispatch(getFullHeroesData(totalUsersCount))
     }, [page, totalUsersCount, pageSize])
 
+    console.log('totalUsersCount', totalUsersCount)
     useEffect(() => {
         return () => {
             console.log("cleaned up");
@@ -68,6 +69,7 @@ function MainHeroesList() {
     }
     const newData = useSelector(state => state.reducer.data)
     console.log(newData)
+
     const hero = useSelector(state => state.reducer.data).map((el, i) =>
         <div className={'hero'} id={el.id} key={i}>
             <div className={'heroNickName'}>{el.nickname}</div>
@@ -118,6 +120,7 @@ function MainHeroesList() {
     }
 
     const pageNumber = Math.ceil(totalUsersCount / pageSize)
+
     return (
         <div className="App">
             <Pagination count={pageNumber} page={page} color='primary' onChange={changeCurrentPage}/>

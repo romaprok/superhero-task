@@ -7,7 +7,6 @@ const instance = axios.create({
 export const dataApi = {
     getFullHeroesLength() {
         return instance.get(``).then(res => {
-            debugger
             let data = res.data.length
             return {
                 data
@@ -15,10 +14,8 @@ export const dataApi = {
         })
     },
     getData(currentPage = 1, pageSize = 3) {
-        debugger
         return instance.get(`?_page=${currentPage}&_limit=${pageSize}`)
             .then(res => {
-                debugger
                 // let length = res.data.items.length
                 let response = res.data
                 let length = res.data.length
@@ -80,14 +77,12 @@ export const dataApi = {
         })
     },
     setHeroImage(image, heroId) {
-        debugger
         const response = instance.patch(`/id=${heroId}&images=${image}`, image, heroId)
             .then(res => res.data)
             .catch(e => alert(e))
     },
 
     postFile(file) {
-        debugger
         return instance.post('/file', {file})
             .then(response => {
                 return response.data

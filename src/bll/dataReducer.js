@@ -26,13 +26,11 @@ const initialState = {
 const dataReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_FULL_HEROES_LENGTH: {
-            debugger
             return {
-                ...state, totalUsersCount: action.length.data
+                ...state, totalUsersCount: action.totalUsersCount.data
             }
         }
         case GET_DATA: {
-            debugger
             return {
                 ...state, data: action.data.response
             }
@@ -44,7 +42,9 @@ const dataReducer = (state = initialState, action) => {
         }
         case ADD_HERO_NICKNAME: {
             return {
-                ...state, data: [...state.data, action.nickname]
+                ...state,
+                data: [...state.data, action.nickname],
+                totalUsersCount: action.totalUsersCount
             }
         }
         case SAVE_PHOTO_SUCCESS: {
@@ -136,12 +136,11 @@ const dataReducer = (state = initialState, action) => {
 }
 export default dataReducer
 
-const getFullHeroesLength = (length) => ({type: GET_FULL_HEROES_LENGTH, length})
+const getFullHeroesLength = (totalUsersCount) => ({type: GET_FULL_HEROES_LENGTH, totalUsersCount})
 const getDataSuccess = (data) => ({type: GET_DATA, data})
-const addNewHeroSuccess = (nickname) => ({type: ADD_HERO_NICKNAME, nickname})
+const addNewHeroSuccess = (nickname, totalUsersCount) => ({type: ADD_HERO_NICKNAME, nickname, totalUsersCount})
 const setCurrentHeroId = (currentHeroId) => ({type: SET_HERO_ID, currentHeroId})
 const setPhotoSuccess = (image, heroId) => {
-    debugger
     return {
         type: SAVE_PHOTO_SUCCESS, image, heroId
     }
@@ -157,9 +156,7 @@ const deleteHeroSuccess = (heroId) => ({type: DELETE_HERO_SUCCESS, heroId})
 
 
 export const getFullHeroesData = () => async (dispatch) => {
-    debugger
     try {
-        debugger
         let res = await dataApi.getFullHeroesLength()
         dispatch(getFullHeroesLength(res))
     } catch (e) {
@@ -167,9 +164,7 @@ export const getFullHeroesData = () => async (dispatch) => {
     }
 }
 export const getData = (currentPage) => async (dispatch) => {
-    debugger
     try {
-        debugger
         let res = await dataApi.getData(currentPage)
         dispatch(getDataSuccess(res))
     } catch (e) {
@@ -225,38 +220,27 @@ export const setHeroCatchPhrase = (heroId, catchPhrase) => async (dispatch) => {
         console.log(e)
     }
 }
-export const addNewHero = (nickname) => async (dispatch) => {
+export const addNewHero = (nickname) => async (dispatch, getState) => {
     try {
+        let totalUsersCount = getState().reducer.totalUsersCount
         let res = await dataApi.addNewHero(nickname)
-        dispatch(addNewHeroSuccess(res))
+        dispatch(addNewHeroSuccess(res, totalUsersCount+1))
     } catch (e) {
         console.log(e)
     }
 }
-export const deleteHero = (heroId) => async (dispatch) => {
+export const deleteHero = (heroId) => async (dispatch, getState) => {
     try {
+        let totalUsersCount = getState().reducer.totalUsersCount
         await dataApi.deleteHero(heroId)
-        dispatch(deleteHeroSuccess(heroId))
+        dispatch(deleteHeroSuccess(heroId, totalUsersCount-1))
     } catch (e) {
         console.log(e)
     }
 }
-// export const setHeroImage = (image, heroId) => async (dispatch) => {
-//     debugger
-//     try {
-//         debugger
-//         encodeImageFileAsURL(image, async (result) => {
-//             debugger
-//             await dataApi.setHeroImage(image, heroId)
-//             dispatch(setPhotoSuccess(image, heroId))
-//         })
-//     } catch (e) {
-//         console.log(e)
-//     }
-// }
+
 export const setHeroImage = (image, heroId) => async (dispatch) => {
     try {
-        debugger
         await dataApi.setHeroImage(image, heroId)
         dispatch(setPhotoSuccess(image, heroId))
     } catch (e) {
