@@ -238,7 +238,6 @@ export const deleteHero = (heroId) => async (dispatch, getState) => {
         console.log(e)
     }
 }
-
 export const setHeroImage = (image, heroId) => async (dispatch) => {
     try {
         await dataApi.setHeroImage(image, heroId)
