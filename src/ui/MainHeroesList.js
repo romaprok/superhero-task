@@ -65,23 +65,19 @@ function MainHeroesList() {
     const [error, setError] = useState(false)
 
     const onClickDeleteHero = (heroId) => {
+        debugger
         dispatch(deleteHero(heroId))
     }
-    const newData = useSelector(state => state.reducer.data)
-    console.log(newData)
 
     const hero = useSelector(state => state.reducer.data).map((el, i) =>
         <div className={'hero'} id={el.id} key={i}>
             <div className={'heroNickName'}>{el.nickname}</div>
-            {el.images
-                ? <div className={'heroImageWrapper'}><img ref={imageHero} className={'heroImage'} src={el.images}
-                                                           alt=""/></div>
+            {el.images ?
+                <div className={'heroImageWrapper'}><img ref={imageHero} className={'heroImage'} src={el.images}
+                                                         alt=""/></div>
                 : <div className={'heroImageWrapper'}><img ref={imageHero} className={'heroImage'}
                                                            src={file64 ? file64 : superHero}
                                                            alt=""/></div>}
-            <div>
-                <button>change hero</button>
-            </div>
             <div>
                 <button><NavLink to={'/heroData/' + el.id}>see details about hero</NavLink></button>
                 {!el.images && <input type={'file'} onChange={(e) => onMainPhotoSelected(e, el.id)}/>}</div>
