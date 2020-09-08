@@ -65,7 +65,6 @@ function MainHeroesList() {
     const [error, setError] = useState(false)
 
     const onClickDeleteHero = (heroId) => {
-        debugger
         dispatch(deleteHero(heroId))
     }
 
