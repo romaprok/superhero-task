@@ -67,7 +67,6 @@ function MainHeroesList() {
     const onClickDeleteHero = (heroId) => {
         dispatch(deleteHero(heroId))
     }
-
     const hero = useSelector(state => state.reducer.data).map((el, i) =>
         <div className={'hero'} id={el.id} key={i}>
             <div className={'heroNickName'}>{el.nickname}</div>
