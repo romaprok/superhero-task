@@ -5,5 +5,4 @@ import dataReducer from "./dataReducer";
 let rootReducer = combineReducers({
     reducer:dataReducer
 })
-
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware))

@@ -13,7 +13,6 @@ import {
 import {NavLink, withRouter} from "react-router-dom";
 
 function HeroData(props) {
-
     const dispatch = useDispatch()
 
     const [editModeNickName, setEditModeNickName] = useState(false)
@@ -62,7 +61,6 @@ function HeroData(props) {
     const onCatchPhraseChanged = (e) => changeCatchPhrase(e.currentTarget.value)
 
 
-    const data = useSelector(state => state.reducer.data)
     const [el] = useSelector(state => state.reducer.data)
 
     const [superName, changeNickName] = useState(el.nickname)
@@ -78,7 +76,6 @@ function HeroData(props) {
         changeSuperPower(el.superpowers)
         changeCatchPhrase(el.catch_phrase)
     }, [el.nickname, el.real_name, el.origin_description, el.superpowers, el.catch_phrase])
-
 
     const fullHeroData = (
         <div>

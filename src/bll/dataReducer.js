@@ -140,12 +140,7 @@ const getFullHeroesLength = (totalUsersCount) => ({type: GET_FULL_HEROES_LENGTH,
 const getDataSuccess = (data) => ({type: GET_DATA, data})
 const addNewHeroSuccess = (nickname, totalUsersCount) => ({type: ADD_HERO_NICKNAME, nickname, totalUsersCount})
 const setCurrentHeroId = (currentHeroId) => ({type: SET_HERO_ID, currentHeroId})
-const setPhotoSuccess = (image, heroId) => {
-    return {
-        type: SAVE_PHOTO_SUCCESS, image, heroId
-    }
-}
-
+const setPhotoSuccess = (image, heroId) => ({type: SAVE_PHOTO_SUCCESS, image, heroId})
 const setNewHeroNickNameSuccess = (heroId, nickname) => ({type: SET_HERO_NICKNAME, heroId, nickname})
 const renameHeroSuccess = (heroId, name) => ({type: RENAME_HERO, heroId, name})
 const setHeroDescriptionSuccess = (heroId, description) => ({type: SET_HERO_DESCRIPTION, heroId, description})
@@ -224,7 +219,7 @@ export const addNewHero = (nickname) => async (dispatch, getState) => {
     try {
         let totalUsersCount = getState().reducer.totalUsersCount
         let res = await dataApi.addNewHero(nickname)
-        dispatch(addNewHeroSuccess(res, totalUsersCount+1))
+        dispatch(addNewHeroSuccess(res, totalUsersCount + 1))
     } catch (e) {
         console.log(e)
     }
@@ -233,7 +228,7 @@ export const deleteHero = (heroId) => async (dispatch, getState) => {
     try {
         let totalUsersCount = getState().reducer.totalUsersCount
         await dataApi.deleteHero(heroId)
-        dispatch(deleteHeroSuccess(heroId, totalUsersCount-1))
+        dispatch(deleteHeroSuccess(heroId, totalUsersCount - 1))
     } catch (e) {
         console.log(e)
     }

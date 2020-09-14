@@ -16,7 +16,6 @@ export const dataApi = {
     getData(currentPage = 1, pageSize = 3) {
         return instance.get(`?_page=${currentPage}&_limit=${pageSize}`)
             .then(res => {
-                // let length = res.data.items.length
                 let response = res.data
                 let length = res.data.length
                 return {
