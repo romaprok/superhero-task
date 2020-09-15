@@ -13,6 +13,7 @@ import {
 import {NavLink, withRouter} from "react-router-dom";
 
 function HeroData(props) {
+
     const dispatch = useDispatch()
 
     const [editModeNickName, setEditModeNickName] = useState(false)
