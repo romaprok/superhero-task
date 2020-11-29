@@ -1,15 +1,16 @@
 import axios from 'axios'
 
 const instance = axios.create({
-    baseURL: 'http://localhost:3004/superhero/'
+    baseURL: 'http://localhost:3005/superhero/'
 })
 
 export const dataApi = {
     getFullHeroesLength() {
         return instance.get(``).then(res => {
-            let data = res.data.length
+            // let data = res.data.length
+            debugger
             return {
-                data
+                res
             }
         })
     },

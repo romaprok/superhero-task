@@ -11,6 +11,9 @@ function App() {
             <Route exact path={'/'} component={MainHeroesList}/>
             <Route exact path={'/superhero-task'} component={MainHeroesList}/>
             <Route path={'/heroData/:id'} component={HeroData}/>
+
+
+            {/*data.map(patient => <Link to={`${patient.name}` }></Link>*/}
         </Switch>
     )
 }
